@@ -1,5 +1,52 @@
-<video controls loop>
-  <source src="a.mp4" type="video/mp4">
-  <!-- ブラウザがサポートしていない場合の代替テキスト -->
-  Your browser does not support the video tag.
-</video>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full-screen Looping Video</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay loop>
+    <source src="a.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    const video = document.getElementById('video');
+
+    // ページが読み込まれたときにビデオをフルスクリーンにする
+    document.addEventListener('DOMContentLoaded', () => {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.mozRequestFullScreen) { /* Firefox */
+        video.mozRequestFullScreen();
+      } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) { /* IE/Edge */
+        video.msRequestFullscreen();
+      }
+    });
+
+    // ビデオが終了したら再度再生する
+    video.addEventListener('ended', () => {
+      video.play();
+    });
+  </script>
+</body>
+</html>
